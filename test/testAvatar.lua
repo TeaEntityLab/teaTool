@@ -14,6 +14,9 @@ end
 function Car:apple ()
   print("Apple")
 end
+function Car:test (num)
+  print("test: " .. num)
+end
 
 local mycar = Tool:new()
 mycar.name = "MyCar"
@@ -21,8 +24,14 @@ function mycar:run ()
   local car = Car:avatar(self)
   print(car{run={120, 60}})
   car{stop={}}
-  car{apple={}}
-  car{}
+  pcall(car, {apple={}})
+  local result, err
+  result, err = pcall(car, {test={1234}})
+  assert(result and err == nil)
+  result, err = pcall(car, {test=1234})
+  assert((not result) and err ~= nil)
+  result, err = pcall(car, {testNotExisting={4321}})
+  assert((not result) and err ~= nil)
 end
 
 mycar:run()
