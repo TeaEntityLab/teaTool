@@ -1,4 +1,4 @@
-local Object = require("object")
+local Object = require("lib.tool.object")
 
 local Avatar = Object:new();
 

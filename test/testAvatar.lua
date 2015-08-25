@@ -1,5 +1,5 @@
 package.path = package.path .. ";../?.lua;?.lua;"
-local Tool = require("tool")
+local Tool = require("lib.tool.tool")
 
 local Car = Tool:new()
 function Car:run (speed, duration)
