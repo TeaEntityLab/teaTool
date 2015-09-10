@@ -24,6 +24,11 @@ function BatmanCar:go ()
   print("I'm batman~")
 end
 
+local Lamborghini = Tool:new()
+function Lamborghini:gogogo ()
+  print("I'm Lamborghini~")
+end
+
 local mycar = Tool:new()
 mycar.name = "MyCar"
 function mycar:run ()
@@ -39,7 +44,12 @@ function mycar:run ()
   result, err = pcall(car, {testNotExisting={4321}})
   assert((not result) and err ~= nil)
 
-  ;
+  local superCarAvatar = Avatar:new()
+  superCarAvatar:addRobot(BatmanCar)
+  superCarAvatar:addRobot(Lamborghini)
+  local superCar = superCarAvatar:getAct()
+  superCar{go={}}
+  superCar{gogogo={}}
 end
 
 mycar:run()

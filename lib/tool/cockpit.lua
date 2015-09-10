@@ -9,8 +9,8 @@ function Cockpit:new (obj)
 end
 
 function Cockpit:create (avatar)
-  local obj = self:new()
-  obj.__index = function (t, k)
+  local indexDef = self:new()
+  indexDef.__index = function (t, k)
     -- For multiple acting
     for i, v in ipairs(avatar.robots) do
       local foundValue = v[k]
@@ -21,10 +21,12 @@ function Cockpit:create (avatar)
       end
     end
 
-    -- Not found
-    return nil
+    -- TODO Get Cockpit own properties.
+    -- return self[k]
   end
 
+  local obj = {}
+  setmetatable(obj, indexDef)
   return obj
 end
 

@@ -16,29 +16,31 @@ function Avatar:addRobot (robot)
   table.insert(self.robots, robot)
 end
 
---- Create a single method avatar of the robot
+--- Create a single method avatar of the pilot
 --
--- @param singleMethodRobot the robot to be piloted
--- @param singleMethodPilot real object which pilots the robot
--- @return the method which emulates the single method avatar
-function Avatar:createSingleMethodAvatar (singleMethodRobot, singleMethodPilot)
+-- @param pilot real object which pilots the robot(s)
+-- @return the avatar
+function Avatar:create (pilot)
   local obj = self:new()
-  obj.singleMethodRobot = singleMethodRobot
-  obj.singleMethodPilot = singleMethodPilot
+  obj.pilot = pilot
+  return obj
+end
+
+function Avatar:getAct ()
   return function (...)
-    return obj:actSingleMethod(...)
+    return self:act(...)
   end
 end
 
---- Act just a single method of the robot for the pilot
+--- Act the robot(s) for the pilot
 --
 -- @param ...
 -- @return the result of acting
-function Avatar:actSingleMethod (...)
+function Avatar:act (...)
   local iter, t, state = pairs(...)
   local k, v = iter(t, state)
   assert(k ~= nil and type(v) == "table")
-  return self.singleMethodRobot[k](self.singleMethodPilot, unpack(v))
+  return self.cockpit[k](self.pilot, unpack(v))
 end
 
 return Avatar
