@@ -9,8 +9,13 @@ function Tool:new (obj)
   return obj
 end
 
+--- Create a single method avatar of this tool
+--
+-- @param pilot
+-- @return the single method avatar method to emulate this tool
+-- @usage #Avatar:createSingleMethodAvatar
 function Tool:avatar (pilot)
-  return Avatar:create(self, pilot)
+  return Avatar:createSingleMethodAvatar(self, pilot)
 end
 
 return Tool

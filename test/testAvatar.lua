@@ -1,5 +1,6 @@
 package.path = package.path .. ";../?.lua;?.lua;"
 local Tool = require("lib.tool.tool")
+local Avatar = require("lib.tool.avatar")
 
 local Car = Tool:new()
 function Car:run (speed, duration)
@@ -18,6 +19,11 @@ function Car:test (num)
   print("test: " .. num)
 end
 
+local BatmanCar = Tool:new()
+function BatmanCar:go ()
+  print("I'm batman~")
+end
+
 local mycar = Tool:new()
 mycar.name = "MyCar"
 function mycar:run ()
@@ -32,6 +38,8 @@ function mycar:run ()
   assert((not result) and err ~= nil)
   result, err = pcall(car, {testNotExisting={4321}})
   assert((not result) and err ~= nil)
+
+  ;
 end
 
 mycar:run()
