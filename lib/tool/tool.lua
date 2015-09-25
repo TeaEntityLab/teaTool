@@ -15,9 +15,7 @@ end
 -- @return the single method avatar method to emulate this tool
 -- @usage #Avatar:createSingleMethodAvatar
 function Tool:avatar (pilot)
-  local avatar = Avatar:create(pilot)
-  avatar:addRobot(self)
-  return avatar:getAct()
+  return Avatar:create(pilot):getAct(self)
 end
 
 return Tool

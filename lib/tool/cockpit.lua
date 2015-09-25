@@ -9,20 +9,26 @@ function Cockpit:new (obj)
 end
 
 function Cockpit:create (avatar)
-  local indexDef = self:new()
+  local indexDef = {}
   indexDef.__index = function (t, k)
+    local foundValue
+
     -- For multiple acting
     for i, v in ipairs(avatar.robots) do
-      local foundValue = v[k]
+      foundValue = v[k]
 
       if(foundValue) then
-        t[k] = foundValue
+        -- Don't save it because it's not inheritance
+        -- rawset(t, k, foundValue)
         return foundValue
       end
     end
 
     -- TODO Get Cockpit own properties.
     -- return self[k]
+  end
+  indexDef.__newindex = function (t, k, v)
+    rawset(avatar.pilot, k, v)
   end
 
   local obj = {}
