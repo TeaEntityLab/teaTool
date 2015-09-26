@@ -13,9 +13,13 @@ end
 --
 -- @param pilot
 -- @return the single method avatar method to emulate this tool
--- @usage #Avatar:createSingleMethodAvatar
+-- @usage #Avatar:create(pilot):getAct(tool)
 function Tool:avatar (pilot)
   return Avatar:create(pilot):getAct(self)
+end
+
+function Tool:abstract ()
+  error("Not Implemented yet")
 end
 
 return Tool
