@@ -1,0 +1,3 @@
+[submodule "luajit-request"]
+	path = luajit-request
+	url = https://github.com/LPGhatguy/luajit-request.git
