@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "lua.vm.js": "^0.0.1"
+  }
+}

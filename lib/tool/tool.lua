@@ -22,9 +22,4 @@ function Tool:abstract ()
   error("Not Implemented yet")
 end
 
-function Tool:isLuaJIT()
-  local value = type(jit) == 'table'
-  return value, value and jit.version or nil
-end
-
 return Tool
