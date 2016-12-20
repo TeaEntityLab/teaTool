@@ -17,6 +17,27 @@ elseif Env:isNodeJS() then
       return {code=404, body="Not Implemented"}
     end
   end
+elseif Env:isJavascript() then
+  Request._send = function(url)
+
+    local operation = function()
+      local request = js.new(js.global.XMLHttpRequest);
+      -- local request = js.new(js.global:requireNodeAsFunction("xhr2"));
+      print(type(request))
+      -- request:open("GET", url)-- synchronous request
+      request:open("GET", url, false)-- synchronous request
+      request:send(nil);
+      return {code=request.status, body=request.responseText}
+    end
+
+    local ok, resultOrErr = pcall(operation)
+    if ok and resultOrErr ~= nil then
+      local res = resultOrErr
+      return res
+    else
+      return {code=404, body="Not Implemented"}
+    end
+  end
 else
   -- TODO
 end
