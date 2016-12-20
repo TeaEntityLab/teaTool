@@ -12,4 +12,9 @@ function Env:isJavascript()
   return value
 end
 
+function Env:isNodeJS()
+  local value = self:isJavascript() and js.global.process ~= nil
+  return value
+end
+
 return Env
