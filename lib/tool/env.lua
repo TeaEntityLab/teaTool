@@ -1,5 +1,4 @@
 local Tool = require("lib.tool.tool")
-local luajitrequest = require("luajit-request")
 
 local Env = Tool:new()
 
