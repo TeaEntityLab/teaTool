@@ -1,6 +1,5 @@
 var fs = require('fs');
 
-var SyncPromise = require('sync-promise');
 var LuaVM = require('lua.vm.js');
 
 require("../lib/tool/package-searcher-nodejs");

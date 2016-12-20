@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "lua.vm.js": "^0.0.1"
+    "lua.vm.js": "^0.0.1",
+    "sync-request": "^3.0.1"
   }
 }

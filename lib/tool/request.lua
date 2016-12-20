@@ -7,7 +7,16 @@ if Env:isLuaJIT() then
   local luajitrequest = require("luajit-request")
   Request._send = luajitrequest.send
 elseif Env:isNodeJS() then
-  Request._send = function() return {code=404, body="Not Implemented"} end
+  Request._send = function(...)
+    local request = js.global:requireNodeAsFunction("sync-request")
+    local ok, resultOrErr = pcall(request, js.global, "GET", ...)
+    if ok and resultOrErr ~= nil then
+      local res = resultOrErr
+      return {code=res.statusCode, body=res:getBody()}
+    else
+      return {code=404, body="Not Implemented"}
+    end
+  end
 else
   -- TODO
 end
