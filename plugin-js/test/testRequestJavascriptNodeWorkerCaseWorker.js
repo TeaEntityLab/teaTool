@@ -3,8 +3,7 @@ var fs = require('fs');
 var LuaVM = require('lua.vm.js');
 
 var libdir = process.cwd()+"/lib/tool/";
-console.log(libdir);
-require(libdir+"package-searcher-nodejs");
+require(process.cwd()+"/plugin-js/"+"package-searcher-nodejs");
 
 function runLua(){
   var l = new LuaVM.Lua.State();
