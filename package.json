@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "lua.vm.js": "^0.0.1",
-    "sync-request": "^3.0.1"
+    "xmlhttprequest": "^1.8.0"
   }
 }
