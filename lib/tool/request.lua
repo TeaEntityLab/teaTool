@@ -18,8 +18,9 @@ if Env:isLuaJIT() then
 --     end
 --   end
 elseif Env:isJavascript() then
-  local operation = function(url)
+  local operation = function(url, ...)
     -- print("logging:"..url)
+    local args = ...
     local request
     if Env:isNodeJS() then
       js.global.XMLHttpRequest = js.global:requireNode("xmlhttprequest").XMLHttpRequest;
@@ -29,13 +30,18 @@ elseif Env:isJavascript() then
     -- print(type(request))
     -- request:open("GET", url)-- synchronous request
     request:open("GET", url, false)-- synchronous request
+
+    if type(args) == "table" then
+      if type(args.timeout) == "number" then request.timeout = math.floor(args.timeout/1000) end
+    end
+
     request:send(nil);
     return {code=request.status, body=request.responseText}
   end
 
-  Request._send = function(url)
+  Request._send = function(url, ...)
 
-    local ok, resultOrErr = pcall(operation, url)
+    local ok, resultOrErr = pcall(operation, url, ...)
     if ok and resultOrErr ~= nil then
       local res = resultOrErr
       return res

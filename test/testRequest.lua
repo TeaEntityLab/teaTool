@@ -4,7 +4,12 @@ local Request = require("lib.tool.request")
 
 
 
-local response = Request:send("https://example.com")
+local response = Request:send("https://www.example.com", {timeout=3000})
+local typeResponse = type(response)
 
-print(response.code)
-print(response.body)
+if typeResponse == "table" then
+  print(response.code)
+  print(response.body)
+else
+  print(response)
+end
