@@ -186,5 +186,56 @@ apr_status_t        apr_gid_name_get(     char **groupname, apr_gid_t gid, apr_p
 apr_status_t        apr_gid_get(          apr_gid_t* gid, const char* groupname, apr_pool_t* );
 apr_status_t        apr_gid_compare(      apr_gid_t left, apr_gid_t right );
 
+typedef pid_t apr_os_proc_t; /**< native pid */
+typedef HANDLE apr_os_proc_t;
+
+/** intervals for I/O timeouts, in microseconds */
+typedef apr_int64_t apr_interval_time_t;
+/** short interval for I/O timeouts, in microseconds */
+typedef apr_int32_t apr_short_interval_time_t;
+typedef struct apr_procattr_t {
+    apr_pool_t *pool;
+    apr_file_t *parent_in;
+    apr_file_t *child_in;
+    apr_file_t *parent_out;
+    apr_file_t *child_out;
+    apr_file_t *parent_err;
+    apr_file_t *child_err;
+    char *currdir;
+    apr_int32_t cmdtype;
+    apr_int32_t detached;
+    apr_int32_t addrspace;
+};
+/** The APR process type */
+typedef struct apr_proc_t {
+    /** The process ID */
+    pid_t pid;
+    /** Parent's side of pipe to child's stdin */
+    apr_file_t *in;
+    /** Parent's side of pipe to child's stdout */
+    apr_file_t *out;
+    /** Parent's side of pipe to child's stdouterr */
+    apr_file_t *err;
+#if APR_HAS_PROC_INVOKED || defined(DOXYGEN)
+    /** Diagnositics/debugging string of the command invoked for
+     *  this process [only present if APR_HAS_PROC_INVOKED is true]
+     * @remark Only enabled on Win32 by default.
+     * @bug This should either always or never be present in release
+     * builds - since it breaks binary compatibility.  We may enable
+     * it always in APR 1.0 yet leave it undefined in most cases.
+     */
+    char *invoked;
+#endif
+#if defined(WIN32) || defined(DOXYGEN)
+    /** (Win32 only) Creator's handle granting access to the process
+     * @remark This handle is closed and reset to NULL in every case
+     * corresponding to a waitpid() on Unix which returns the exit status.
+     * Therefore Win32 correspond's to Unix's zombie reaping characteristics
+     * and avoids potential handle leaks.
+     */
+    HANDLE hproc;
+#endif
+} apr_proc_t;
+
 ]]
 return apr
