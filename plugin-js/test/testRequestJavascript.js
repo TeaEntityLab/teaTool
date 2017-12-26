@@ -1,3 +1,4 @@
 require(process.cwd()+"/plugin-js/"+"/package-searcher-nodejs");
 
-runLua("test/testRequest")
+var l = runLua("test/testRequest");
+resumeLua(l)

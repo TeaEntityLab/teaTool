@@ -56,7 +56,15 @@ runLua = function (filename, relativeBaseDir){
   // l.execute('package.path = package.path .. ";test/?.lua;"');
   l.execute('package.path = package.path .. ";?.lua;"');
   l.execute(data.toString());
-  l.execute("require('"+filename+"')");
+  l.execute("main = coroutine.create(function () \
+           require('"+filename+"') \
+         end)");
+
+  return l;
+}
+resumeLua = function (l) {
+  l.execute("coroutine.resume(main)");
+  return;
 }
 
 function getContent(filename){
