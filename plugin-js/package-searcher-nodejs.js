@@ -1,5 +1,8 @@
 var fs = require('fs');
 var pathUtils = require('path');
+
+var LuaVM = require('lua.vm.js');
+
 requireNode = function(url){
   return require(url);
 }
@@ -43,6 +46,17 @@ requireLua = function (url, path) {
 
   // result = fs.readFileSync(__dirname + "/" + filename, "utf8");
   return result;
+}
+
+runLua = function (filename, relativeBaseDir){
+  relativeBaseDir = relativeBaseDir == undefined ? "" : relativeBaseDir;
+  var libdir = process.cwd()+"/"+relativeBaseDir+"/lib/tool/";
+  var l = new LuaVM.Lua.State();
+  var data = fs.readFileSync(libdir+"package-searcher-nodejs.lua", 'utf8');
+  // l.execute('package.path = package.path .. ";test/?.lua;"');
+  l.execute('package.path = package.path .. ";?.lua;"');
+  l.execute(data.toString());
+  l.execute("require('"+filename+"')");
 }
 
 function getContent(filename){
