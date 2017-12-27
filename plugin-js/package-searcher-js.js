@@ -19,3 +19,47 @@ resumeLua = function (l, ...args) {
   l.execute("coroutine.resume(main)");
   return;
 }
+returnArgs = [];
+returnWithArgs = function (...args) {
+  returnArgs = args.length > 0 ? args : [];
+  return;
+}
+
+cwd = function () {
+  return "./";
+}
+cwdScript = function () {
+  return cwd();
+}
+newWorker = function (filename) {
+  var libdir = cwdScript() + "/";
+  var remoteData = {
+    data : [],
+  };
+  var worker = new Worker(libdir+"worker-lua.js");
+  worker.onmessage = function (ev) {
+    console.log("Received");
+    // console.log("Received:"+ev.data);
+    remoteData.data.push(ev.data);
+  };
+  worker.postMessage(filename);
+
+  return {
+    "worker" : worker,
+    "remoteData" : remoteData,
+  };
+}
+terminateWorker = function (config) {
+  console.log("terminating"+config);
+  config.worker.terminate();
+  console.log("terminated");
+}
+sendMessage = function (config, message) {
+  console.log(config, message);
+  config.worker.postMessage(message);
+}
+getMessage = function (config) {
+  var data = config.remoteData.data;
+  // console.log("GetMessage:"+data);
+  return data.length > 0 ? data.shift() : undefined;
+}

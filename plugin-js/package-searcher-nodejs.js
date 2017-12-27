@@ -1,7 +1,21 @@
 var fs = require('fs');
 var pathUtils = require('path');
 
-require('./package-searcher-js');
+Worker = require("tiny-worker");
+
+cwd = function () {
+  return process.cwd() + "/";
+}
+cwdScript = function () {
+  return __dirname.split("/").pop();
+}
+require(cwd()+cwdScript()+'/package-searcher-js');
+cwd = function () {
+  return process.cwd() + "/";
+}
+cwdScript = function () {
+  return __dirname.split("/").pop();
+}
 
 requireNode = function(url){
   return require(url);
@@ -50,7 +64,7 @@ requireLua = function (url, path) {
 
 loadLua = function (filename, relativeBaseDir){
   relativeBaseDir = relativeBaseDir == undefined ? "" : relativeBaseDir;
-  var libdir = process.cwd()+"/"+relativeBaseDir+"/lib/tool/";
+  var libdir = cwd()+"/"+relativeBaseDir+"/lib/tool/";
   var l = new LuaVM.Lua.State();
   var data = fs.readFileSync(libdir+"package-searcher-nodejs.lua", 'utf8');
   // l.execute('package.path = package.path .. ";test/?.lua;"');
@@ -69,7 +83,7 @@ function getContent(filename){
   var result = void 0;
   try {
     // var path = __dirname + "/" + filename;
-    var path = process.cwd() + "/" + filename;
+    var path = cwd() + filename;
     // var path = pathUtils.dirname(fs.realpathSync(__filename)) + "/" + filename;
     // console.log(path);
     result = fs.readFileSync(path, "utf8");

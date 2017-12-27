@@ -13,3 +13,5 @@ if typeResponse == "table" then
 else
   print(response)
 end
+
+print(js.global.resumeArgs)
